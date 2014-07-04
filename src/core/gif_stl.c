@@ -465,7 +465,11 @@ int main(int argc, char **argv) {
    //
    printf("read %s\n",argv[1]);
    color_resolution = -1;
+#if GIFLIB_MAJOR >= 5
+   GIFfile = DGifOpenFileName(argv[1], NULL);
+#else
    GIFfile = DGifOpenFileName(argv[1]);
+#endif
    if (GIFfile == NULL) {
       printf("gif_stl: oops -- can not open %s\n",argv[1]);
       exit(-1);
@@ -557,8 +561,16 @@ int main(int argc, char **argv) {
    //
    // read the file
    //
+#if GIFLIB_MAJOR >= 5
+    DGifCloseFile(GIFfile, NULL);
+#else
    DGifCloseFile(GIFfile);
+#endif
+#if GIFLIB_MAJOR >= 5
+   GIFfile = DGifOpenFileName(argv[1], NULL);
+#else
    GIFfile = DGifOpenFileName(argv[1]);
+#endif
    if (GIFfile == NULL) {
       printf("gif_stl: oops -- can not open %s\n",argv[1]);
       exit(-1);
@@ -712,6 +724,10 @@ int main(int argc, char **argv) {
    //
    // exit
    //
+#if GIFLIB_MAJOR >= 5
+    DGifCloseFile(GIFfile, NULL);
+#else
    DGifCloseFile(GIFfile);
+#endif
    exit(0);
    }

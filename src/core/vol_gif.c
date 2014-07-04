@@ -178,7 +178,11 @@ int main(int argc, char **argv) {
    //
    // set up color map
    //
+#if GIFLIB_MAJOR >= 5
+   GIFcmap = GifMakeMapObject(256, NULL);
+#else
    GIFcmap = MakeMapObject(256, NULL);
+#endif
    for (i = 0; i < 256; i++) {
       GIFcmap->Colors[i].Red = i;
       GIFcmap->Colors[i].Green = i;
@@ -188,11 +192,20 @@ int main(int argc, char **argv) {
    // open GIF file
    //
    printf("write %s\n",argv[2]);
-   GIFfile = EGifOpenFileName(argv[2], 0);
+
    EGifPutScreenDesc(GIFfile,dx,dy,8,0,GIFcmap);
    unsigned char loop_count[] = {1,0,0};
+#if GIFLIB_MAJOR >= 5
+   GIFfile = EGifOpenFileName(argv[2], 0, NULL);
+   EGifPutExtension(GIFfile, APPLICATION_EXT_FUNC_CODE, 11, "NETSCAPE2.0");
+   EGifPutExtension(GIFfile, APPLICATION_EXT_FUNC_CODE, 3, loop_count);
+#else
+   GIFfile = EGifOpenFileName(argv[2], 0);
    EGifPutExtensionFirst(GIFfile, APPLICATION_EXT_FUNC_CODE, 11, "NETSCAPE2.0");
    EGifPutExtensionLast(GIFfile, APPLICATION_EXT_FUNC_CODE, 3, loop_count);
+#endif
+
+
    unsigned char delay_count[5] = { 
       0, // no transparency
       0, // delay time
@@ -260,6 +273,10 @@ int main(int argc, char **argv) {
    // exit
    //
    fclose(input_file);
+#if GIFLIB_MAJOR >= 5
+   EGifCloseFile(GIFfile, NULL);
+#else
    EGifCloseFile(GIFfile);
+#endif
    exit(0);
    }
