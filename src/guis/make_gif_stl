@@ -1,0 +1,52 @@
+#!/usr/bin/env python
+#
+# make_gif_stl
+#    .gif to .stl GUI wrapper
+#
+# Neil Gershenfeld
+# CBA MIT 3/25/14
+#
+# (c) Massachusetts Institute of Technology 2011
+# Permission granted for experimental and personal use;
+# license for commercial sale available from MIT.
+#
+# imports
+#
+import wx,sys
+from fab_set import fab_frame
+from panel_control import control_panel
+from panel_gif import gif_panel
+from panel_gif_stl import gif_stl_panel
+#
+# command line
+#
+print "command line: make_gif_stl [input_file [size]]"
+print "   input_file = input .gif file (optional)"
+print "   size = image panel size (optional)"
+#
+# start wx
+#
+app = wx.App()
+#
+# add panels to frame
+#
+frame = fab_frame("make_gif_stl",sys.argv)
+frame.control_panel = control_panel(frame)
+frame.sizer.Add(frame.control_panel,(0,0),span=(1,2),flag=wx.ALIGN_CENTER_HORIZONTAL)
+frame.gif_panel = gif_panel(frame)
+frame.sizer.Add(frame.gif_panel,(1,0))
+frame.stl_panel = gif_stl_panel(frame)
+frame.sizer.Add(frame.stl_panel,(1,1))
+#
+# defaults
+#
+frame.defaults = {}
+#
+# fit and show frame
+#
+frame.Fit()
+frame.Show()
+#
+# start mainloop
+#
+app.MainLoop()
