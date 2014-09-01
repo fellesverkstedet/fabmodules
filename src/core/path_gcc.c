@@ -69,10 +69,20 @@ void fab_write_gcc(struct fab_vars *v, char *output_file_name,
    // Note: Must be <80 bytes
    fprintf(output_file,"!m%dN%s", strlen(filename), filename); 
 
-    /*
 
+    // TODO: set power,ppi, speed
+
+
+    // Enter HPGL vector mode
+   fprintf(output_file,"%%1B");
+
+
+/*
    current_z = 0;
    fprintf(output_file,"YP%d;\n",power);
+*/
+
+    /*
    v->path->segment = v->path->last;
    while (1) {
       //
@@ -122,6 +132,9 @@ void fab_write_gcc(struct fab_vars *v, char *output_file_name,
       }
 
     */
+
+   // Leave HPGL vector mode
+   fprintf(output_file,"%%1A");
 
    // Reset
    fprintf(output_file,"E");
