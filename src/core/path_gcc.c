@@ -18,6 +18,16 @@
 
 #include "fab.h"
 
+// Machine expects 16 pen values for PPI/power/speed, encoded as ascii
+static int write_pen_values(char *str, size_t n, int v[16]) {
+
+   int written = snprintf(str, n,
+                "%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d%04d",
+                v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7], v[8],
+                v[9], v[10], v[11], v[12], v[13], v[14], v[15], v[16], v[17]);
+   return written;
+}
+
 void fab_write_gcc(struct fab_vars *v, char *output_file_name,
                     int power, int speed, int focus,
                     float ox, float oy, char loc,
@@ -69,17 +79,42 @@ void fab_write_gcc(struct fab_vars *v, char *output_file_name,
    // Note: Must be <80 bytes
    fprintf(output_file,"!m%dN%s", strlen(filename), filename); 
 
+   // Set raster power+velocity. Works but only affects raster. Shows in display before start
+   fprintf(output_file,"!r%dI", rate);
+   fprintf(output_file,"!r%dP", power*10);
 
-    // TODO: set power,ppi, speed
-/*
-   fprintf(output_file,"!v%dP%s", 1, 10); // power
-   fprintf(output_file,"!v%dP%s", 1, 10); // power
-   fprintf(output_file,"!v%dP%s", 1, 10); // power
-*/
+    // Select first (and only) pen
+//   fprintf(output_file,"!v%dD", 1);
+//   fprintf(output_file,"!m%dA", 2); // somehow triggers auto-focus??
+
+   // Use same value for all 16 pens
+   int velocities[16];
+   int ppis[16];
+   int powers[16];
+   {
+   int i;
+   for (i=0; i<16; i++) {
+      velocities[i] = speed*10; // thousands
+      powers[i] = power*10; // thousands
+      ppis[i] = rate;
+   }
+   }
+
+   char buf[65];
+
+   // Set power
+   write_pen_values(buf, 65, powers);
+   fprintf(output_file,"!v%dP%s", 64, buf);
+   // Velocity
+   write_pen_values(buf, 65, velocities);
+   fprintf(output_file,"!v%dV%s", 64, buf);
+   // PPI
+   write_pen_values(buf, 65, ppis);
+   fprintf(output_file,"!v%dI%s", 64, buf);
+
 
     // Enter HPGL vector mode
    fprintf(output_file,"%%1B");
-
 
 /*
    current_z = 0;
@@ -143,17 +178,10 @@ void fab_write_gcc(struct fab_vars *v, char *output_file_name,
    // End
    fprintf(output_file,"%%-12345X@PJL EOJ \r\n");
 
-   //
-   // end-of-file padding hack from Epilog print driver
-   //
-//   for (i = 0; i < 10000; ++i)
-//      fprintf(output_file," ");
-   // fprintf(output_file,"%c",26); // ^z
-   //
+
    // close and return
    //
    fclose(output_file);
-   printf("path_gcc version %d\n", 1);
    printf("wrote %s\n",output_file_name);
    printf("   segments: %d, points: %d\n",nsegs,npts);
    }
