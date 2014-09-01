@@ -67,8 +67,7 @@ void fab_write_gcc(struct fab_vars *v, char *output_file_name,
 
    // Set filename
    // Note: Must be <80 bytes
-// FIXME: errors out. Perhaps value must contain quotes?
-//   fprintf(output_file,"!m%sN", filename); 
+   fprintf(output_file,"!m%dN%s", strlen(filename), filename); 
 
     /*
 
