@@ -53,20 +53,22 @@ void fab_write_gcc(struct fab_vars *v, char *output_file_name,
 
    // Start
    // XXX: Strange that there are two %% ?
-   fprintf(output_file,"%%-12345X@PJL JOB NAME=%s\r\nE@PJL ENTER LANGUAGE=PCL\r\n", filename);
+   fprintf(output_file,"@PJL JOB NAME=%s\r\nE@PJL ENTER LANGUAGE=PCL\r\n%%-12345X", filename);
 
    // Reset
    fprintf(output_file,"E");
+   fprintf(output_file,"&u%dD", 127);
 
    // TODO: set unit
 
    // Cursor
-//   fprintf(output_file,"*p%dX", 100);
-//   fprintf(output_file,"*p%dY", 100);
+   fprintf(output_file,"*p%dX", 100);
+   fprintf(output_file,"*p%dY", 100);
 
    // Set filename
    // Note: Must be <80 bytes
-//   fprintf(output_file,"!m%sN", filename);
+// FIXME: errors out. Perhaps value must contain quotes?
+//   fprintf(output_file,"!m%sN", filename); 
 
     /*
 
