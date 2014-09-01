@@ -57,12 +57,11 @@ void fab_write_gcc(struct fab_vars *v, char *output_file_name,
       yoffset = 600.0*(oy)/25.4;
       }
 
-   // NOTE: focus ignored
-
-   char *filename = "my test filename 111";
+   // Limit filename to 80 chars 
+   char *filename[80];
+   snprintf(filename, 80, "%s", output_file_name);
 
    // Start
-   // XXX: Strange that there are two %% ?
    fprintf(output_file,"@PJL JOB NAME=%s\r\nE@PJL ENTER LANGUAGE=PCL\r\n%%-12345X", filename);
 
    // Reset
@@ -76,7 +75,6 @@ void fab_write_gcc(struct fab_vars *v, char *output_file_name,
    fprintf(output_file,"*p%dY", 100);
 
    // Set filename
-   // Note: Must be <80 bytes
    fprintf(output_file,"!m%dN%s", strlen(filename), filename); 
 
    // Set raster power+velocity. Works but only affects raster. Shows in display before start
@@ -112,15 +110,11 @@ void fab_write_gcc(struct fab_vars *v, char *output_file_name,
    write_pen_values(buf, 65, ppis);
    fprintf(output_file,"!v%dI%s", 64, buf);
 
-
     // Enter HPGL vector mode
    fprintf(output_file,"%%1B");
 
-/*
    current_z = 0;
-   fprintf(output_file,"YP%d;\n",power);
-*/
-
+//   fprintf(output_file,"YP%d;\n",power);
    v->path->segment = v->path->last;
    while (1) {
       //
@@ -133,7 +127,7 @@ void fab_write_gcc(struct fab_vars *v, char *output_file_name,
          z = v->path->segment->point->first->next->next->value;
          if (z != current_z) {
             layer_power = power + (max_power-power) * z / (v->nz - 1.0);
-            fprintf(output_file,"YP%d;\n",layer_power);
+            //fprintf(output_file,"YP%d;\n",layer_power);
             current_z = z;
             }
          }
