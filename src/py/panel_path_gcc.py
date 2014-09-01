@@ -1,9 +1,12 @@
 #
-# panel_path_epi.py
-#    make .epi from .path
+# panel_path_gcc.py
+#    make .gcc from .path
+# Based on panel_path_epi.py
 #
 # Neil Gershenfeld 8/19/13
 # (c) Massachusetts Institute of Technology 2013
+# Jon Nordby 9/1/14
+# (c) Jon Nordby, Fellesverkstedet 2014
 #
 # This work may be reproduced, modified, distributed,
 # performed, and displayed for any purpose, but must
@@ -20,18 +23,18 @@ import wx,os,string
 #
 # panel class
 #
-class path_epi_panel(wx.Panel):
+class path_gcc_panel(wx.Panel):
    def __init__(self,parent):
       self.parent = parent
       self.parent.path_file = ''
       #
-      # make epi
+      # make gcc
       #
-      def make_epi(event):
+      def make_gcc(event):
          if (self.parent.path_file == ''):
-            print 'panel_path_epi: oops -- need path file'
+            print 'panel_path_gcc: oops -- need path file'
             return
-         self.parent.epi_file = self.parent.tmp+self.parent.rootname+'.epi'
+         self.parent.gcc_file = self.parent.tmp+self.parent.rootname+'.gcc'
          if (string.find(self.parent.path_type,"2D") != -1):
             power = self.power_2D.GetValue()
             if (self.focus_2D.GetValue()):
@@ -50,7 +53,7 @@ class path_epi_panel(wx.Panel):
                loc = 'r'
             speed = self.speed_2D.GetValue()
             rate = self.rate_2D.GetValue()
-            command = 'path_epi '+'\"'+self.parent.path_file+'\"'+' '+'\"'+self.parent.epi_file+'\"'+' '+power+' '+speed+' '+focus+' '+ox+' '+oy+' '+loc+' '+' '+rate
+            command = 'path_gcc '+'\"'+self.parent.path_file+'\"'+' '+'\"'+self.parent.gcc_file+'\"'+' '+power+' '+speed+' '+focus+' '+ox+' '+oy+' '+loc+' '+' '+rate
             print command
             os.system(command)
             self.button.Show()
@@ -75,20 +78,20 @@ class path_epi_panel(wx.Panel):
                loc = 'r'
             speed = self.speed_3D.GetValue()
             rate = self.rate_3D.GetValue()
-            command = 'path_epi '+'\"'+self.parent.path_file+'\"'+' '+'\"'+self.parent.epi_file+'\"'+' '+min_power+' '+speed+' '+focus+' '+ox+' '+oy+' '+loc+' '+' '+rate+' '+max_power
+            command = 'path_gcc '+'\"'+self.parent.path_file+'\"'+' '+'\"'+self.parent.gcc_file+'\"'+' '+min_power+' '+speed+' '+focus+' '+ox+' '+oy+' '+loc+' '+' '+rate+' '+max_power
             print command
             os.system(command)
             self.button.Show()
             self.parent.Layout()
             self.parent.Fit()
          else:
-            print "panel_path_epi: oops -- don't recognize path type"
+            print "panel_path_gcc: oops -- don't recognize path type"
             return
       #
       # send
       #
       def fab_send(event):
-         command = 'fab_send '+'\"'+self.parent.epi_file+'\"'
+         command = 'fab_send '+'\"'+self.parent.gcc_file+'\"'
          print command
          os.system(command)
       #
@@ -100,7 +103,7 @@ class path_epi_panel(wx.Panel):
       #
       # label
       #
-      label = wx.StaticText(self,label='to: epi')
+      label = wx.StaticText(self,label='to: gcc')
       bold_font = wx.Font(10,wx.DEFAULT,wx.NORMAL,wx.BOLD)
       label.SetFont(bold_font)
       self.sizer.Add(label,(0,0),flag=wx.ALIGN_CENTER_HORIZONTAL)
@@ -115,8 +118,8 @@ class path_epi_panel(wx.Panel):
       #
       # controls
       #
-      make = wx.Button(self,label='make .epi')
-      make.Bind(wx.EVT_BUTTON,make_epi)
+      make = wx.Button(self,label='make .gcc')
+      make.Bind(wx.EVT_BUTTON,make_gcc)
       self.sizer.Add(make,(2,0),flag=wx.ALIGN_CENTER_HORIZONTAL)
       #
       # 2D panel

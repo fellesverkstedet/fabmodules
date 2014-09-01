@@ -1,9 +1,12 @@
 //
-// path_epi.c
-//    convert path to Epilog lasercutter .epi
+// path_gcc.c
+//    convert path to GCC lasercutter .gcc
+// Based on path_epi.c
 //
 // Neil Gershenfeld 8/18/13
 // (c) Massachusetts Institute of Technology 2013
+// Jon Nordby 9/1/14
+// (c) Jon Nordby, Fellesverkstedet 2014
 //
 // This work may be reproduced, modified, distributed,
 // performed, and displayed for any purpose, but must
@@ -15,9 +18,12 @@
 
 #include "fab.h"
 
-void fab_write_epi(struct fab_vars *v, char *output_file_name, int power, int speed, int focus, float ox, float oy, char loc, int rate, int max_power) {
+void fab_write_gcc(struct fab_vars *v, char *output_file_name,
+                    int power, int speed, int focus,
+                    float ox, float oy, char loc,
+                    int rate, int max_power) {
    //
-   // write path to Epilog lasercutter file
+   // write path to GCC lasercutter file
    //
 	FILE *output_file;
    int i,x,y,z,current_z,layer_power,nsegs=0,npts=0;
@@ -127,9 +133,9 @@ int main(int argc, char **argv) {
    // command line args
    //
    if (!((argc == 3) || (argc == 4) || (argc == 5) || (argc == 6) || (argc == 8) || (argc == 9) || (argc == 10) || (argc == 11))) {
-      printf("command line: path_epi in.path out.epi [power [speed [focus [x y [ location [rate [max_power]]]]]]]\n");
+      printf("command line: path_gcc in.path out.gcc [power [speed [focus [x y [ location [rate [max_power]]]]]]]\n");
       printf("   in.path = input path file\n");
-      printf("   out.epi= output Epilog lasercutter file\n");
+      printf("   out.gcc= output GCC lasercutter file\n");
       printf("   power = percent power, for minimum z value (optional, 0-100, default 50)\n");
       printf("   speed = percent speed (optional, 0-100, default 50)\n");
       printf("   focus = autofocus (optional, 0=off | 1=on, default on)\n");
@@ -175,8 +181,8 @@ int main(int argc, char **argv) {
    //
    fab_read_path(&v,argv[1]);
    //
-   // write .epi
+   // write .gcc
    //
-   fab_write_epi(&v,argv[2],power,speed,focus,ox,oy,loc,rate,max_power);
+   fab_write_gcc(&v,argv[2],power,speed,focus,ox,oy,loc,rate,max_power);
    }
 

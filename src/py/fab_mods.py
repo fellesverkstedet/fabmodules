@@ -76,6 +76,9 @@ def set_workflows(frame,formats,workflows):
    frame.processes.Append("Universal halftone (.uni)")
    workflows["image (.png) : Universal halftone (.uni)"] = "make_png_uni_halftone"
    #
+   frame.processes.Append("GCC lasercutter (.gcc)")
+   workflows["image (.png) : GCC lasercutter (.gcc)"] = "make_png_gcc"
+   #
    frame.processes.Append("Resonetics excimer (.oms)")
    workflows["image (.png) : Resonetics excimer (.oms)"] = "make_png_oms"
    workflows["drawing (.svg) : Resonetics excimer (.oms)"] = "make_svg_oms"

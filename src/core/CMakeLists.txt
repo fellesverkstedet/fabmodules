@@ -4,7 +4,7 @@ set(PROGRAMS vol_gif vol_stl gif_info gif_png gif_stl stl_info stl_png stl_path
              png_size png_scale png_distances png_offset png_grb png_drl
              png_path png_halftone svg_path
              path_eps path_dxf path_png path_rml path_sbp path_g path_camm
-             path_epi path_uni path_oms path_ord
+             path_epi path_uni path_gcc path_oms path_ord
              path_join path_array path_info path_time
     CACHE STRING "Core program list")
 

@@ -9,7 +9,7 @@ set(PYs fab_mods.py fab_set.py panel_control.py
         panel_png_drl.py panel_path.py
         panel_path_rml.py panel_path_plt.py panel_path_oms.py
         panel_path_sbp.py panel_path_ord.py panel_path_camm.py
-        panel_path_epi.py panel_path_uni.py panel_path_g.py
+        panel_path_epi.py panel_path_uni.py panel_path_g.py panel_path_gcc.py
         panel_path_eps.py panel_path_snap.py panel_path_dxf.py
         panel_stl.py panel_stl_png.py
         panel_svg.py panel_svg_path.py

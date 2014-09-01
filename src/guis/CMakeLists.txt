@@ -7,7 +7,7 @@ set(GUIs fab fab.html fabserver
          make_math_camm make_math_epi make_math_g make_math_ord make_math_eps
          make_math_uni make_math_rml make_math_sbp make_math_grb
          make_math_drl
-         make_png_png make_png_eps make_png_epi make_png_uni make_png_grb
+         make_png_png make_png_eps make_png_epi make_png_uni make_png_grb make_png_gcc
          make_png_epi_halftone make_png_uni_halftone make_png_rml make_png_sbp
          make_png_ord make_png_camm make_png_plt make_png_g make_png_drl
          make_png_oms

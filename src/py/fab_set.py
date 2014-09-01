@@ -66,6 +66,39 @@ class fab_frame(wx.Frame):
       = "self.epi_panel.power_2D.SetValue('75');\
          self.epi_panel.speed_2D.SetValue('25');"
    #
+   # set .png .epi defaults
+   #
+   def set_png_gcc(self):
+      self.defaults = {}
+      self.control_panel.defaults.Append('cardboard')
+      self.defaults["cardboard"]\
+      = "self.png_path_panel.diameter_rough.SetValue('0.25');\
+         self.png_path_panel.error_rough.SetValue('1.5');\
+         self.png_path_panel.diameter_finish.SetValue('0.25');\
+         self.png_path_panel.clearance_diameter_finish.SetValue('0.25');\
+         self.png_path_panel.error_finish.SetValue('1.5');\
+         self.png_path_panel.diameter_2D.SetValue('0.25');\
+         self.png_path_panel.error_2D.SetValue('1.5');\
+         self.gcc_panel.power_2D.SetValue('25');\
+         self.gcc_panel.speed_2D.SetValue('75');\
+         self.gcc_panel.min_power_3D.SetValue('5');\
+         self.gcc_panel.max_power_3D.SetValue('25');\
+         self.gcc_panel.speed_3D.SetValue('75');"
+      self.control_panel.defaults.Append('acrylic')
+      self.defaults["acrylic"]\
+      = "self.png_path_panel.diameter_rough.SetValue('0.25');\
+         self.png_path_panel.error_rough.SetValue('1.5');\
+         self.png_path_panel.diameter_finish.SetValue('0.25');\
+         self.png_path_panel.clearance_diameter_finish.SetValue('0.25');\
+         self.png_path_panel.error_finish.SetValue('1.5');\
+         self.png_path_panel.diameter_2D.SetValue('0.25');\
+         self.png_path_panel.error_2D.SetValue('1.5');\
+         self.gcc_panel.power_2D.SetValue('75');\
+         self.gcc_panel.speed_2D.SetValue('25');\
+         self.gcc_panel.min_power_3D.SetValue('25');\
+         self.gcc_panel.max_power_3D.SetValue('75');\
+         self.gcc_panel.speed_3D.SetValue('25');"
+   #
    # set .cad .epi defaults
    #
    def set_cad_epi(self):

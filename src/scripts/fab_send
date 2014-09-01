@@ -21,6 +21,7 @@ commands = {
      '.drl': 'gerbv "$file"',
      '.dxf': 'gedit "$file"',
      '.epi': 'printer=laser; lprm -P$printer -; lpr -P$printer "$file"',
+     '.gcc': 'printer=laser; lprm -P$printer -; lpr -P$printer "$file"',
      '.uni': 'port=/dev/lp0; cat "$file" > $port',
      '.stl': 'meshlab "$file"',
      '.ord': 'gedit "$file"',
