@@ -71,7 +71,11 @@ void fab_write_gcc(struct fab_vars *v, char *output_file_name,
 
 
     // TODO: set power,ppi, speed
-
+/*
+   fprintf(output_file,"!v%dP%s", 1, 10); // power
+   fprintf(output_file,"!v%dP%s", 1, 10); // power
+   fprintf(output_file,"!v%dP%s", 1, 10); // power
+*/
 
     // Enter HPGL vector mode
    fprintf(output_file,"%%1B");
@@ -82,7 +86,6 @@ void fab_write_gcc(struct fab_vars *v, char *output_file_name,
    fprintf(output_file,"YP%d;\n",power);
 */
 
-    /*
    v->path->segment = v->path->last;
    while (1) {
       //
@@ -116,7 +119,7 @@ void fab_write_gcc(struct fab_vars *v, char *output_file_name,
             z = v->path->segment->point->first->next->next->value;
             if (z != current_z) {
                layer_power = power + (max_power-power) * z / (v->nz - 1.0);
-               fprintf(output_file,"YP%d;\n",layer_power);
+               //fprintf(output_file,"YP%d;\n",layer_power);
                current_z = z;
                }
             }
@@ -129,9 +132,7 @@ void fab_write_gcc(struct fab_vars *v, char *output_file_name,
       if (v->path->segment == v->path->first)
          break;
       v->path->segment = v->path->segment->previous;
-      }
-
-    */
+   }
 
    // Leave HPGL vector mode
    fprintf(output_file,"%%1A");
