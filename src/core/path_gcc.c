@@ -46,16 +46,30 @@ void fab_write_gcc(struct fab_vars *v, char *output_file_name,
       xoffset = 600.0*(ox - v->dx)/25.4;
       yoffset = 600.0*(oy)/25.4;
       }
-   if (focus == 0)
-      // 
-      // init with autofocus off
-      //
-      fprintf(output_file,"%%-12345X@PJL JOB NAME=%s\r\nE@PJL ENTER LANGUAGE=PCL\r\n&y0A&l0U&l0Z&u600D*p0X*p0Y*t600R*r0F&y50P&z50S*r6600T*r5100S*r1A*rC%%1BIN;XR%d;YP%d;ZS%d;\n",output_file_name,rate,power,speed);
-   else
-      //
-      // init with autofocus on
-      //
-      fprintf(output_file,"%%-12345X@PJL JOB NAME=%s\r\nE@PJL ENTER LANGUAGE=PCL\r\n&y1A&l0U&l0Z&u600D*p0X*p0Y*t600R*r0F&y50P&z50S*r6600T*r5100S*r1A*rC%%1BIN;XR%d;YP%d;ZS%d;\n",output_file_name,rate,power,speed);
+
+   // NOTE: focus ignored
+
+   char *filename = "my test filename 111";
+
+   // Start
+   // XXX: Strange that there are two %% ?
+   fprintf(output_file,"%%-12345X@PJL JOB NAME=%s\r\nE@PJL ENTER LANGUAGE=PCL\r\n", filename);
+
+   // Reset
+   fprintf(output_file,"E");
+
+   // TODO: set unit
+
+   // Cursor
+//   fprintf(output_file,"*p%dX", 100);
+//   fprintf(output_file,"*p%dY", 100);
+
+   // Set filename
+   // Note: Must be <80 bytes
+//   fprintf(output_file,"!m%sN", filename);
+
+    /*
+
    current_z = 0;
    fprintf(output_file,"YP%d;\n",power);
    v->path->segment = v->path->last;
@@ -105,17 +119,26 @@ void fab_write_gcc(struct fab_vars *v, char *output_file_name,
          break;
       v->path->segment = v->path->segment->previous;
       }
-   fprintf(output_file,"%%0B%%1BPUE%%-12345X@PJL EOJ \r\n");
+
+    */
+
+   // Reset
+   fprintf(output_file,"E");
+
+   // End
+   fprintf(output_file,"%%-12345X@PJL EOJ \r\n");
+
    //
    // end-of-file padding hack from Epilog print driver
    //
-   for (i = 0; i < 10000; ++i)
-      fprintf(output_file," ");
+//   for (i = 0; i < 10000; ++i)
+//      fprintf(output_file," ");
    // fprintf(output_file,"%c",26); // ^z
    //
    // close and return
    //
    fclose(output_file);
+   printf("path_gcc version %d\n", 1);
    printf("wrote %s\n",output_file_name);
    printf("   segments: %d, points: %d\n",nsegs,npts);
    }
