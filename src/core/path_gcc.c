@@ -39,26 +39,15 @@ void fab_write_gcc(struct fab_vars *v, char *output_file_name,
    int i,x,y,z,current_z,layer_power,nsegs=0,npts=0;
    float scale,xoffset,yoffset;
    output_file = fopen(output_file_name,"w");
-//   scale = 600.0*v->dx/(25.4*(v->nx-1.0)); // 600 DPI
-   // FIXME: calculate proper scale
-   scale = 3.35f;
 
-   if (loc == 'l') {
-      xoffset = 600.0*(ox)/25.4;
-      yoffset = 600.0*(oy - v->dy)/25.4;
-      }
-   else if (loc == 'r') {
-      xoffset = 600.0*(ox - v->dx)/25.4;
-      yoffset = 600.0*(oy - v->dy)/25.4;
-      }
-   else if (loc == 'L') {
-      xoffset = 600.0*(ox)/25.4;
-      yoffset = 600.0*(oy)/25.4;
-      }
-   else if (loc == 'R') {
-      xoffset = 600.0*(ox - v->dx)/25.4;
-      yoffset = 600.0*(oy)/25.4;
-      }
+   // TODO: support machines with different heights
+   const float machine_height_mm = 460;
+   const float machine_unit_mm = 0.025;
+   const float mm_per_px = v->dx/v->nx;
+
+   scale = mm_per_px/machine_unit_mm;
+   xoffset = ox/machine_unit_mm;
+   yoffset = (machine_height_mm-oy)/machine_unit_mm;
 
    // Limit filename to 80 chars 
    char *filename[80];
@@ -130,7 +119,7 @@ void fab_write_gcc(struct fab_vars *v, char *output_file_name,
       //
       v->path->segment->point = v->path->segment->first;
       x = xoffset + scale * v->path->segment->point->first->value;
-      y = yoffset + scale * v->path->segment->point->first->next->value;
+      y = yoffset - scale * v->path->segment->point->first->next->value;
       if (v->path->dof >= 3) {
          z = v->path->segment->point->first->next->next->value;
          if (z != current_z) {
@@ -151,7 +140,7 @@ void fab_write_gcc(struct fab_vars *v, char *output_file_name,
             break;
          v->path->segment->point = v->path->segment->point->next;
          x = xoffset + scale * v->path->segment->point->first->value;
-         y = yoffset + scale * v->path->segment->point->first->next->value;
+         y = yoffset - scale * v->path->segment->point->first->next->value;
          if (v->path->dof >= 3) {
             z = v->path->segment->point->first->next->next->value;
             if (z != current_z) {
@@ -185,6 +174,8 @@ void fab_write_gcc(struct fab_vars *v, char *output_file_name,
    //
    fclose(output_file);
    printf("wrote %s\n",output_file_name);
+   printf("offset X=%.2f, Y=%.2f\n", xoffset, yoffset);
+   printf("scale=%.4f", scale);
    printf("   segments: %d, points: %d\n",nsegs,npts);
    }
 
