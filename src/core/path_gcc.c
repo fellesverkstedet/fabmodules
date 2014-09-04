@@ -39,7 +39,10 @@ void fab_write_gcc(struct fab_vars *v, char *output_file_name,
    int i,x,y,z,current_z,layer_power,nsegs=0,npts=0;
    float scale,xoffset,yoffset;
    output_file = fopen(output_file_name,"w");
-   scale = 600.0*v->dx/(25.4*(v->nx-1.0)); // 600 DPI
+//   scale = 600.0*v->dx/(25.4*(v->nx-1.0)); // 600 DPI
+   // FIXME: calculate proper scale
+   scale = 3.35f;
+
    if (loc == 'l') {
       xoffset = 600.0*(ox)/25.4;
       yoffset = 600.0*(oy - v->dy)/25.4;
@@ -66,9 +69,9 @@ void fab_write_gcc(struct fab_vars *v, char *output_file_name,
 
    // Reset
    fprintf(output_file,"E");
-   fprintf(output_file,"&u%dD", 127);
 
-   // TODO: set unit
+   // Unit
+   fprintf(output_file,"&u%dD", 254);
 
    // Cursor
    fprintf(output_file,"*p%dX", 100);
