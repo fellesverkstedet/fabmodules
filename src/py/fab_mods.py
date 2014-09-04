@@ -78,6 +78,7 @@ def set_workflows(frame,formats,workflows):
    #
    frame.processes.Append("GCC lasercutter (.gcc)")
    workflows["image (.png) : GCC lasercutter (.gcc)"] = "make_png_gcc"
+   workflows["drawing (.svg) : GCC lasercutter (.gcc)"] = "make_svg_gcc"
    #
    frame.processes.Append("Resonetics excimer (.oms)")
    workflows["image (.png) : Resonetics excimer (.oms)"] = "make_png_oms"

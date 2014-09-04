@@ -13,7 +13,7 @@ set(GUIs fab fab.html fabserver
          make_png_oms
          make_stl_png make_stl_rml make_stl_sbp make_stl_g
          make_svg_camm make_svg_epi make_svg_uni make_svg_oms
-         make_svg_g make_svg_rml make_svg_sbp make_svg_ord make_png_snap
+         make_svg_g make_svg_rml make_svg_sbp make_svg_ord make_svg_gcc make_png_snap
          make_cad_snap make_stl_snap make_svg_snap make_png_eps_halftone
          make_cad_dxf make_math_dxf make_math_stl make_png_dxf
          make_gif_stl
