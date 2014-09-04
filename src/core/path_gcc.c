@@ -116,6 +116,11 @@ void fab_write_gcc(struct fab_vars *v, char *output_file_name,
     // Enter HPGL vector mode
    fprintf(output_file,"%%1B");
 
+   // Select a pen.
+   // If this is not done, the first paths will be made with laser on
+   // - regardless if they are actually pen-up commands
+   fprintf(output_file,";SP2;");
+
    current_z = 0;
 //   fprintf(output_file,"YP%d;\n",power);
    v->path->segment = v->path->last;
