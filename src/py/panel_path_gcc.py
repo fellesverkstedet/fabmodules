@@ -37,10 +37,8 @@ class path_gcc_panel(wx.Panel):
          self.parent.gcc_file = self.parent.tmp+self.parent.rootname+'.gcc'
          if (string.find(self.parent.path_type,"2D") != -1):
             power = self.power_2D.GetValue()
-            if (self.focus_2D.GetValue()):
-               focus = '1'
-            else:
-               focus = '0'
+            focus = '0'
+
             ox = self.origin_x_2D.GetValue()
             oy = self.origin_y_2D.GetValue()
             if self.top_left_2D.GetValue():
@@ -62,10 +60,7 @@ class path_gcc_panel(wx.Panel):
          elif (string.find(self.parent.path_type,"3D") != -1):
             min_power = self.min_power_3D.GetValue()
             max_power = self.max_power_3D.GetValue()
-            if (self.focus_3D.GetValue()):
-               focus = '1'
-            else:
-               focus = '0'
+            focus = '0'
             ox = self.origin_x_3D.GetValue()
             oy = self.origin_y_3D.GetValue()
             if self.top_left_3D.GetValue():
@@ -128,8 +123,7 @@ class path_gcc_panel(wx.Panel):
       sizer_2D = wx.GridBagSizer(10,10)
       self.panel_2D.SetSizer(sizer_2D)
       #
-      self.focus_2D = wx.CheckBox(self.panel_2D,-1,'autofocus')
-      sizer_2D.Add(self.focus_2D,(0,0),span=(1,2),flag=(wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL))
+      sizer_2D.Add(wx.StaticText(self.panel_2D,label='remember to focus!'),(0,0),span=(1,2),flag=wx.ALIGN_CENTER_HORIZONTAL)
       #
       sizer_2D.Add(wx.StaticText(self.panel_2D,label='power (%)'),(1,0),span=(1,2),flag=wx.ALIGN_CENTER_HORIZONTAL)
       #
@@ -182,9 +176,6 @@ class path_gcc_panel(wx.Panel):
       self.panel_3D = wx.Panel(self)
       sizer_3D = wx.GridBagSizer(10,10)
       self.panel_3D.SetSizer(sizer_3D)
-      #
-      self.focus_3D = wx.CheckBox(self.panel_3D,-1,'autofocus')
-      sizer_3D.Add(self.focus_3D,(0,0),span=(1,2),flag=wx.ALIGN_CENTER_HORIZONTAL)
       #
       set_panel_3D = wx.Panel(self.panel_3D)
       set_sizer_3D = wx.GridBagSizer(10,10)
